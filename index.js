@@ -36,7 +36,7 @@ var minifyAll = function(dir, options, callback){
                     fileOut: path, 
                     callback: callback || function(err, min){
                         if(err){
-                            throw err;
+                            throw new UserException(err);
                         }
                     }
                 });
