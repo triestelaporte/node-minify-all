@@ -33,12 +33,7 @@ var minifyAll = function(dir, options, callback){
                 new compressor.minify({
                     type: options.type, 
                     fileIn: path, 
-                    fileOut: path, 
-                    callback: callback || function(err, min){
-                        if(err){
-                            throw new UserException(err);
-                        }
-                    }
+                    fileOut: path
                 });
             } catch (ex) {
                 console.log('Swallowing Exception with:  ' && ex);
