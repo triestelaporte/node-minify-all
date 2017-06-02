@@ -23,20 +23,26 @@ var minifyAll = function(dir, options, callback){
     options.type = options.type || inputMinType;
 
     walk(dir, function(path, result){
-        if (path.substr(-3) === ".js" || path.substr(-4) === ".css" || path.substr(-9) === ".resource"){
+        var fileParts = path.split(".");
+        
+        if (fileParts[1] === ".js" || fileParts[1] === ".css" || fileParts[1] === ".resource"){
             if (!options.silent){
                 console.log("found file: " + path);
             }
-            new compressor.minify({
-                type: options.type, 
-                fileIn: path, 
-                fileOut: path, 
-                callback: callback || function(err, min){
-                    if(err){
-                        console.log(err);
+            try {
+                new compressor.minify({
+                    type: options.type, 
+                    fileIn: path, 
+                    fileOut: path, 
+                    callback: callback || function(err, min){
+                        if(err){
+                            throw err;
+                        }
                     }
-                }
-            });
+                });
+            } catch (ex) {
+                console.log('Swallowing Exception with:  ' && ex);
+            }
         }
     });
 };
