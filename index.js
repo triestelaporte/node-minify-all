@@ -4,6 +4,8 @@ var path = require("path");
 var input = process.argv;
 var inputDir = input[2];
 var inputMinType = input[3] || "uglifyjs";
+var continueOnError = input[4] || false;
+
 var compressor = require("node-minify");
 
 var walk = function(currentDirPath, callback) {
@@ -29,15 +31,16 @@ var minifyAll = function(dir, options, callback){
             if (!options.silent){
                 console.log("found file: " + path);
             }
-            try {
-                new compressor.minify({
-                    type: options.type, 
-                    fileIn: path, 
-                    fileOut: path
-                });
-            } catch (ex) {
-                console.log('Swallowing Exception with:  ' && ex);
-            }
+            new compressor.minify({
+                type: options.type, 
+                fileIn: path, 
+                fileOut: path,
+                callback: callback || function(err, min){
+-                        if(err && !continueOnError){
+-                            console.log(err);
+-                        }
+-                    }
+            });
         }
     });
 };
