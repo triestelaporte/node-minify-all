@@ -25,10 +25,7 @@ var minifyAll = function(dir, options, callback){
     walk(dir, function(path, result){
         var fileParts = path.split(".");
         
-        console.log(fileParts[0]);
-        console.log(fileParts[1]);
-        
-        if (fileParts[1] === ".js" || fileParts[1] === ".css" || fileParts[1] === ".resource"){
+        if (fileParts[1] === "js" || fileParts[1] === "css" || fileParts[1] === "resource"){
             if (!options.silent){
                 console.log("found file: " + path);
             }
